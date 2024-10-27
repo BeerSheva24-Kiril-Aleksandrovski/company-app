@@ -36,7 +36,7 @@ public class AddEmployeeItems {
                 Item.of("Hire Wage Employee", AddEmployeeItems::hireWageEmployee),
                 Item.of("Hire Sales Person", AddEmployeeItems::hireSalesPerson),
                 Item.of("Hire Manager", AddEmployeeItems::hireManager),
-                Item.ofExit()
+                Item.of("Back to main menu", io ->{}, true)
         };
         return res;
     }
@@ -52,11 +52,7 @@ public class AddEmployeeItems {
         return employee;
     }
 
-    static void hireEmployee(InputOutput io) {
-        company.addEmployee(initEmployee(io));
-    }
-
-    static void hireWageEmployee(InputOutput io) {
+    static WageEmployee initWageEmployee(InputOutput io) {
         Employee employee = initEmployee(io);
         int wage = io.readNumberRange(String.format("Enter Wage Employee wage in the range [%d-%d]", MIN_WAGE, MAX_WAGE),
         "Wrong wage value", MIN_WAGE, MAX_WAGE).intValue();
@@ -64,29 +60,41 @@ public class AddEmployeeItems {
         "Wrong hours value", MIN_HOURS, MAX_HOURS).intValue();
         WageEmployee wageEmployee = new WageEmployee(employee.getId(), employee.computeSalary(),
                 employee.getDepartment(), wage, hours);
-        company.addEmployee(wageEmployee);
+        return wageEmployee;
     }
 
-    static void hireSalesPerson(InputOutput io) {
-        Employee employee = initEmployee(io);
-        int wage = io.readNumberRange(String.format("Enter Sales Person wage in the range [%d-%d]", MIN_WAGE, MAX_WAGE),
-        "Wrong wage value", MIN_WAGE, MAX_WAGE).intValue();
-        int hours = io.readNumberRange(String.format("Enter Sales Person hours in the range [%d-%d]",MIN_HOURS, MAX_HOURS),
-        "Wrong hours value", MIN_HOURS, MAX_HOURS).intValue();
+    static SalesPerson initSalesPerson(InputOutput io) {
+        WageEmployee wageEmployee = initWageEmployee(io);
         float percent = io.readNumberRange(String.format("Enter Sales Person percent in the range [%d-%d]", "", MIN_PERCENT, MAX_PERCENT),
         "Wrong percent value",MIN_PERCENT, MAX_PERCENT).floatValue();
         long sales = io.readNumberRange(String.format("Enter Sales Person sales in the range [%d-%d]", MIN_SALES, MAX_SALES),
         "Wrong sales value", MIN_SALES, MAX_SALES).longValue();
-        SalesPerson salesPerson = new SalesPerson(employee.getId(), employee.computeSalary(), employee.getDepartment(),
-                wage, hours, percent, sales);
-        company.addEmployee(salesPerson);
+        SalesPerson salesPerson = new SalesPerson(wageEmployee.getId(), wageEmployee.computeSalary(), wageEmployee.getDepartment(),
+                wageEmployee.getWage(), wageEmployee.getHours(), percent, sales);
+        return salesPerson;
     }
 
-    static void hireManager(InputOutput io) {
+    static Manager initManager(InputOutput io) {
         Employee employee = initEmployee(io);
         float factor = io.readNumberRange(String.format("Enter Manager factor in the range [%d-%d]", "", MIN_FACTOR, MAX_FACTOR),
         "Wrong factor value",MIN_FACTOR, MAX_FACTOR).floatValue();
         Manager manager = new Manager(employee.getId(), employee.computeSalary(), employee.getDepartment(), factor);
-        company.addEmployee(manager);
+        return manager;
+    }
+
+    static void hireEmployee(InputOutput io) {
+        company.addEmployee(initEmployee(io));
+    }
+
+    static void hireWageEmployee(InputOutput io) {
+        company.addEmployee(initWageEmployee(io));
+    }
+
+    static void hireSalesPerson(InputOutput io) {    
+        company.addEmployee(initSalesPerson(io));
+    }
+
+    static void hireManager(InputOutput io) {
+        company.addEmployee(initManager(io));
     }
 }
