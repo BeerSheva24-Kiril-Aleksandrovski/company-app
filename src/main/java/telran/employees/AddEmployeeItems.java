@@ -58,7 +58,7 @@ public class AddEmployeeItems {
         "Wrong wage value", MIN_WAGE, MAX_WAGE).intValue();
         int hours = io.readNumberRange(String.format("Enter Wage Employee hours in the range [%d-%d]",MIN_HOURS, MAX_HOURS),
         "Wrong hours value", MIN_HOURS, MAX_HOURS).intValue();
-        WageEmployee wageEmployee = new WageEmployee(employee.getId(), employee.computeSalary(),
+        WageEmployee wageEmployee = new WageEmployee(employee.getId(), employee.getBasicSalary(),
                 employee.getDepartment(), wage, hours);
         return wageEmployee;
     }
@@ -69,7 +69,7 @@ public class AddEmployeeItems {
         "Wrong percent value",MIN_PERCENT, MAX_PERCENT).floatValue();
         long sales = io.readNumberRange(String.format("Enter Sales Person sales in the range [%d-%d]", MIN_SALES, MAX_SALES),
         "Wrong sales value", MIN_SALES, MAX_SALES).longValue();
-        SalesPerson salesPerson = new SalesPerson(wageEmployee.getId(), wageEmployee.computeSalary(), wageEmployee.getDepartment(),
+        SalesPerson salesPerson = new SalesPerson(wageEmployee.getId(), wageEmployee.getBasicSalary(), wageEmployee.getDepartment(),
                 wageEmployee.getWage(), wageEmployee.getHours(), percent, sales);
         return salesPerson;
     }
@@ -78,7 +78,7 @@ public class AddEmployeeItems {
         Employee employee = initEmployee(io);
         float factor = io.readNumberRange(String.format("Enter Manager factor in the range [%d-%d]", "", MIN_FACTOR, MAX_FACTOR),
         "Wrong factor value",MIN_FACTOR, MAX_FACTOR).floatValue();
-        Manager manager = new Manager(employee.getId(), employee.computeSalary(), employee.getDepartment(), factor);
+        Manager manager = new Manager(employee.getId(), employee.getBasicSalary(), employee.getDepartment(), factor);
         return manager;
     }
 
