@@ -1,34 +1,10 @@
 package telran.employees;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
-import telran.view.InputOutput;
-import telran.view.Item;
+import static telran.employees.CompanyConfigProperties.*;
+import telran.view.*;
 
 public class AddEmployeeItems {
-    private static Company company;
-
-    final static long MIN_ID = 1;
-    final static long MAX_ID = 999999;
-    final static int MIN_SALARY = 1000;
-    final static int MAX_SALARY = 100000;
-    final static String[] DEPARTMENTS = { "QA", "Development", "Audit", "HR" };
-    final static HashSet<String> departmentsSet = new HashSet<String>(Arrays.asList(DEPARTMENTS));
-    // for Wage Employee ext Employee
-    final static int MIN_WAGE = 10;
-    final static int MAX_WAGE = 100;
-    final static int MIN_HOURS = 0;
-    final static int MAX_HOURS = 300;
-    // Sales Person ext Wage Empl
-    final static float MIN_PERCENT = 0.01f;
-    final static float MAX_PERCENT = 0.5f;
-    final static long MIN_SALES = 0;
-    final static long MAX_SALES = 99999;
-    // Manager ext Empl
-    final static float MIN_FACTOR = 1;
-    final static float MAX_FACTOR = 5;
-
+    static Company company;
     public static Item[] getItemsAddEmployee(Company company) {
         AddEmployeeItems.company = company;
         Item[] res = {
@@ -44,8 +20,8 @@ public class AddEmployeeItems {
     static Employee initEmployee(InputOutput io) {
         long id = io.readNumberRange(String.format("Enter ID value in the range [%d-%d]", MIN_ID, MAX_ID),
         "Wrong ID value", MIN_ID, MAX_ID).longValue();
-        int basicSalary = io.readNumberRange(String.format("Enter salary value in the range [%d-%d]", MIN_SALARY, MAX_SALARY),
-        "Wrong salary value", MIN_SALARY, MAX_SALARY).intValue();
+        int basicSalary = io.readNumberRange(String.format("Enter salary value in the range [%d-%d]", MIN_BASIC_SALARY, MAX_BASIC_SALARY),
+        "Wrong salary value", MIN_BASIC_SALARY, MAX_BASIC_SALARY).intValue();
         String department = io.readStringOptions("Enter department from " + departmentsSet, "Must be one out from " + departmentsSet, 
         departmentsSet);
         Employee employee = new Employee(id, basicSalary, department);
